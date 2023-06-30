@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../store/contactsOperation';
 import { selectContacts } from '../../store/useSelector';
+import toast, { Toaster } from 'react-hot-toast';
 import css from './ContactForm.module.css';
 
 const ContactForm = () => {
@@ -30,7 +31,9 @@ const ContactForm = () => {
     );
 
     if (isDuplicateContact) {
-      setError('Contact already exists');
+      toast('OMG Contact already exists!', {
+        icon: '🤯',
+      });
       return;
     }
 
@@ -67,6 +70,7 @@ const ContactForm = () => {
           required
         />
       </label>
+      <Toaster position="top-center" reverseOrder={true} />
       {error && <p>{error}</p>}
       <button type="submit" className={css.btn}>
         Add contact

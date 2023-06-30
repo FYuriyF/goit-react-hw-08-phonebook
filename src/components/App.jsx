@@ -1,10 +1,13 @@
 import ContactForm from './ContactForm';
+import { Route, Routes } from 'react-router-dom';
 import Filter from './Filter';
 import ContactList from './ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, lazy } from 'react';
 import { fetchContacts } from '../store/contactsOperation';
 import { getError, getIsLoading, selectContacts } from '../store/useSelector';
+
+const HomePage = lazy(() => import('../pages/Home/Home'));
 
 const App = () => {
   const dispatch = useDispatch();
