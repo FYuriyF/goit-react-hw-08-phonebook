@@ -1,0 +1,49 @@
+.form {
+  background-color: rgb(27, 77, 0);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid #000;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0.5rem 0.5rem 2rem rgb(167, 164, 164),
+    -0.5rem -0.5rem 2rem rgb(172, 171, 171);
+}
+
+label {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+label:last-child {
+  margin-bottom: 0px;
+}
+
+.inputName {
+  margin-left: 28px;
+}
+
+.inputNumber {
+  margin-left: 10px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+
+  padding: 2px 32px;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  border-style: none;
+  cursor: pointer;
+  font-weight: bold;
+
+  font-size: 16px;
+  line-height: 1.88;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  background-color: #166a1e;
+}
