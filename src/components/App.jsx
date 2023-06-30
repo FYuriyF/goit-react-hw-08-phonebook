@@ -1,42 +1,61 @@
-import ContactForm from './ContactForm';
-import { Route, Routes } from 'react-router-dom';
-import Filter from './Filter';
-import ContactList from './ContactList';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, lazy } from 'react';
-import { fetchContacts } from '../store/contactsOperation';
-import { getError, getIsLoading, selectContacts } from '../store/useSelector';
+import { selectIsRefreshing, selectIsLoggedIn } from '../store/useSelector';
+import { refreshUser } from '../store/auth/authOperation';
+import SharedLayout from './SharedLayout/SharedLayout';
 
 const HomePage = lazy(() => import('../pages/Home/Home'));
+const RegisterPage = lazy(() => import('../pages/Register/Register'));
+const LoginPage = lazy(() => import('../pages/Login/Login'));
+const ContactsPage = lazy(() => import('../pages/Contacts/Contacts'));
 
-const App = () => {
+export const App = () => {
+  const { isRefreshing } = useSelector(selectIsRefreshing);
+  const { isLoggedIn } = useSelector(selectIsLoggedIn);
+
+  const RestrictedRoute = ({ component: Component, redirectTo = '/' }) => {
+    return isLoggedIn ? <Navigate to={redirectTo} /> : Component;
+  };
+
+  const PrivateRoute = ({ component: Component, redirectTo = '/' }) => {
+    const shouldRedirect = !isLoggedIn && !isRefreshing;
+    return shouldRedirect ? <Navigate to={redirectTo} /> : Component;
+  };
+
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
-
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
-    <div>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      {isLoading && (
-        <>
-          <h1>Loading...</h1>
-        </>
-      )}
-      {error && <p>Sorry. {error}</p>}
-      {!isLoading && !error && contacts.length < 1 && (
-        <p>Sorry, there is no contacts yet</p>
-      )}
-      <ContactList />
-    </div>
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute
+              redirectTo="/contacts"
+              component={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
-
-export default App;
