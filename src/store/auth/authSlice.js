@@ -1,8 +1,7 @@
 import { logIn, logOut, refreshUser, register } from './authOperation';
 import persistReducer from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
-
-const { createSlice, isAnyOf } = require('@reduxjs/toolkit');
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: { name: null, email: null },
@@ -13,25 +12,36 @@ const initialState = {
   isFetching: false,
 };
 
-const authPersistConfig = {
-  key: 'auth',
-  storage,
-  whitelist: ['token'],
+const handlePending = state => {
+  state.error = '';
 };
 
-export const handleAuthPending = state => {
-  state.isFetching = true;
+const handleRejected = (state, action) => {
+  state.error = action.payload;
 };
-export const handleAuthFullfiled = (state, { payload }) => {
-  state.isFetching = false;
-  state.isLoggedIn = true;
+
+const handleRegisterFulfilled = (state, { payload }) => {
   state.user = payload.user;
   state.token = payload.token;
+  state.isLoggedIn = true;
 };
 
-export const handleAuthRejected = (state, { payload }) => {
-  state.isFetching = false;
-  state.error = payload;
+const handleLoginFulfilled = (state, { payload }) => {
+  state.user = payload.user;
+  state.token = payload.token;
+  state.isLoggedIn = true;
+};
+
+const handlerefreshFulfilled = (state, { payload }) => {
+  state.user = payload;
+  state.isLoggedIn = true;
+  state.isRefreshing = false;
+};
+
+const handleLogOut = state => {
+  state.user = { name: null, email: null };
+  state.token = null;
+  state.isLoggedIn = false;
 };
 
 const authSlice = createSlice({
@@ -39,39 +49,27 @@ const authSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(logOut.fulfilled, state => {
-        state.isFetching = false;
-        state.user = { name: null, email: null };
-        state.token = null;
-        state.isLoggedIn = false;
-      })
+      .addCase(register.fulfilled, handleRegisterFulfilled)
+      .addCase(logIn.fulfilled, handleLoginFulfilled)
+      .addCase(logOut.fulfilled, handleLogOut)
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
       })
-      .addCase(refreshUser.fulfilled, (state, { payload }) => {
-        state.user = payload;
-        state.isLoggedIn = true;
+      .addCase(refreshUser.fulfilled, handlerefreshFulfilled)
+      .addCase(refreshUser.rejected, state => {
         state.isRefreshing = false;
       })
-      .addCase(refreshUser.rejected, (state, { payload }) => {
-        state.isRefreshing = false;
-        state.error = payload;
-      })
-      .addMatcher(
-        isAnyOf(register.pending, logIn.pending, logOut.pending),
-        handleAuthPending
-      )
-      .addMatcher(
-        isAnyOf(register.fulfilled, logIn.fulfilled),
-        handleAuthFullfiled
-      )
-      .addMatcher(
-        isAnyOf(register.rejected, logIn.rejected, logOut.rejected),
-        handleAuthRejected
-      );
+      .addMatcher(action => action.type.endsWith('/pending'), handlePending)
+      .addMatcher(action => action.type.endsWith('/rejected'), handleRejected);
   },
 });
 
 export const authReducer = authSlice.reducer;
+
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
+};
 
 export const authReducers = persistReducer(authPersistConfig, authReducer);

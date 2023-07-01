@@ -1,13 +1,48 @@
-.authNavContainer {
-  font-size: 28px;
-  font-weight: 600;
-  font-style: inherit;
-  display: flex;
-  gap: 20px;
-  font-style: inherit;
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Iceland'), local('Iceland-Regular'),
+    url(http://themes.googleusercontent.com/static/fonts/iceland/v3/F6LYTZLHrG9BNYXRjU7RSw.woff)
+      format('woff');
 }
 
-.link {
+.authNavContainer {
+  font-size: 24px;
+  font-weight: 600;
+
+  display: flex;
+  gap: 20px;
+}
+
+/* .link {
   text-decoration: none;
   color: inherit;
+} */
+.link {
+  text-align: center;
+  font-size: 1.5em;
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  font-family: Iceland;
+  color: #228dff;
+}
+
+.link:hover {
+  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+  animation: neon2 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228dff,
+      0 0 70px #228dff, 0 0 80px #228dff, 0 0 100px #228dff, 0 0 150px #228dff;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228dff,
+      0 0 35px #228dff, 0 0 40px #228dff, 0 0 50px #228dff, 0 0 75px #228dff;
+  }
 }

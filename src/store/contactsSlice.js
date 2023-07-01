@@ -30,6 +30,7 @@ const handleFetchContactsFulfilled = (state, { payload }) => {
 const handleAddContactFulfilled = (state, { payload }) => {
   state.items.push(payload);
   state.error = null;
+  state.isLoading = false;
 };
 
 const handleDeleteContactFulfilled = (state, { payload }) => {

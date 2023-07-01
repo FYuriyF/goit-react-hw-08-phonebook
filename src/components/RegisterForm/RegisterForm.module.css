@@ -13,6 +13,13 @@
   gap: 5px;
   font-size: 18px;
   font-weight: 700;
+  font-size: 1.5em;
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  font-family: Iceland;
+  color: #228dff;
 }
 
 .formInput {
@@ -33,11 +40,19 @@
   border: none;
   cursor: pointer;
   font-weight: 600;
+  text-align: center;
+  font-size: 22px;
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  font-family: Iceland;
+  color: #228dff;
 }
 
 .registerBtn:hover,
 .registerBtn:focus {
-  background-color: rgb(17, 189, 55);
+  background-color: #228dff;
   color: #fff;
   transform: scale(1.1);
   transition: all 250ms;

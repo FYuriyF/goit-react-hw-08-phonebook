@@ -20,7 +20,7 @@ const ContactList = () => {
     <ul className={css.list}>
       {filteredContacts.map(contact => (
         <li key={contact.id} className={css.item}>
-          {contact.id}) {contact.name}: {contact.phone}
+          {contact.name}: {contact.number}
           <button onClick={() => handleDelete(contact.id)} className={css.btn}>
             Delete
           </button>

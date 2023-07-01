@@ -2,29 +2,48 @@
   background-color: rgb(27, 77, 0);
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   border: 1px solid #000;
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: 0.5rem 0.5rem 2rem rgb(167, 164, 164),
     -0.5rem -0.5rem 2rem rgb(172, 171, 171);
 }
-
-label {
-  margin-bottom: 10px;
+.label {
+  margin-right: auto;
+  margin-bottom: 20px;
   color: #fff;
+  font-size: 1.5em;
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  font-family: Iceland;
+  color: #228dff;
 }
-
-label:last-child {
-  margin-bottom: 0px;
+.label:active {
+  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+  animation: neon2 1.5s ease-in-out infinite alternate;
 }
 
 .inputName {
-  margin-left: 28px;
+  justify-content: center;
+  width: 400px;
+  margin-left: 42px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid black;
 }
 
 .inputNumber {
-  margin-left: 10px;
+  justify-content: center;
+  width: 400px;
+  height: 25px;
+  margin-left: 20px;
+  border-radius: 5px;
+  border: 1px solid black;
 }
 
 .btn {
@@ -33,7 +52,7 @@ label:last-child {
   justify-content: center;
   min-width: 100px;
 
-  padding: 2px 32px;
+  padding: 5px 50px;
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -41,9 +60,44 @@ label:last-child {
   cursor: pointer;
   font-weight: bold;
 
-  font-size: 16px;
-  line-height: 1.88;
+  line-height: 1;
   letter-spacing: 0.06em;
-  color: #ffffff;
+  background-color: white;
+
+  text-align: center;
+  font-size: 1.5em;
+  text-decoration: none;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  font-family: Iceland;
+  color: #228dff;
   background-color: #166a1e;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #228dff;
+  color: #fff;
+  transform: scale(1.1);
+  transition: all 250ms;
+}
+
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Iceland'), local('Iceland-Regular'),
+    url(http://themes.googleusercontent.com/static/fonts/iceland/v3/F6LYTZLHrG9BNYXRjU7RSw.woff)
+      format('woff');
+}
+@keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228dff,
+      0 0 70px #228dff, 0 0 80px #228dff, 0 0 100px #228dff, 0 0 150px #228dff;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228dff,
+      0 0 35px #228dff, 0 0 40px #228dff, 0 0 50px #228dff, 0 0 75px #228dff;
+  }
 }
